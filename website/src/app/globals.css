@@ -1,0 +1,490 @@
+@import "tailwindcss";
+
+/* `short:` = laptop screens with little height (keeps the sign-in card on one screen). */
+@custom-variant short (@media (max-height: 820px));
+
+/* `dark:` = dark theme (set on <html data-theme="dark"> from the theme switch). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Design system — light, map-first.
+ * Ink #292928 · Lime #c3f832 · Mist #f8f8f8 · White #ffffff · DM Sans.
+ *
+ * Token names are kept from the first (dark) version so every page picks
+ * the new look up automatically:
+ *   night    → app background        surface      → cards (white)
+ *   elevated → inputs / inner tiles  surface-high → light grey tiles
+ *   olive    → accent text (dark lime-green, readable on white)
+ *   lime     → accent fills (chips, progress bars, highlights)
+ */
+@theme {
+  --color-night: #f1f1ef;
+  --color-elevated: #f8f8f8;
+  --color-surface: #ffffff;
+  --color-surface-high: #f8f8f8;
+  --color-surface-overlay: #ececea;
+
+  --color-lime: #c3f832;
+  --color-lime-soft: #e4fca0;
+  --color-olive: #4b6a00;
+  --color-olive-soft: #6b8f0c;
+  --color-olive-dim: #e7e7e4;
+
+  --color-ink: #292928;
+  --color-ink-2: #5c5c59;
+  --color-ink-3: #8b8b87;
+  --color-ink-4: #b6b6b1;
+
+  --color-critical: #dc4a3d;
+  --color-moderate: #c97a00;
+  --color-minor: #4f9a12;
+  --color-pending: #8b4fd6;
+  --color-lilac: #e9d5ff;
+
+  --color-line: rgb(41 41 40 / 0.09);
+  --color-hairline: rgb(41 41 40 / 0.05);
+
+  /* Strong fills (primary buttons, active tab/nav, dark chips).
+     Light: ink fill + white text. Dark: lime fill + near-black text. */
+  --color-fill: #292928;
+  --color-fill-hover: #000000;
+  --color-on-fill: #ffffff;
+  --color-fill-accent: #c3f832; /* lime text/icons sitting on a fill */
+  --color-on-lime: #292928; /* text on lime — dark in both themes */
+  --color-brand: #292928; /* sign-in brand panel, always dark */
+  --color-map: #eceeea;
+
+  --font-sans: "DM Sans Variable", "DM Sans", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans Arabic", sans-serif;
+
+  --radius-card: 22px;
+}
+
+/* ── Dark theme ─────────────────────────────────────────────────────── */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --color-night: #0e0e0d;
+  --color-elevated: #212120;
+  --color-surface: #191918;
+  --color-surface-high: #222221;
+  --color-surface-overlay: #2c2c2a;
+
+  --color-lime-soft: #3a4a12;
+  --color-olive: #c3f832;
+  --color-olive-soft: #a6d62a;
+  --color-olive-dim: #2c2c2a;
+
+  --color-ink: #f2f2ee;
+  --color-ink-2: #babab4;
+  --color-ink-3: #8a8a84;
+  --color-ink-4: #5f5f5a;
+
+  --color-critical: #f26b5e;
+  --color-moderate: #eda43c;
+  --color-minor: #8ad146;
+  --color-pending: #b993f5;
+  --color-lilac: rgb(150 95 230 / 0.26);
+
+  --color-line: rgb(255 255 255 / 0.09);
+  --color-hairline: rgb(255 255 255 / 0.06);
+
+  --color-fill: #c3f832;
+  --color-fill-hover: #d4ff5c;
+  --color-on-fill: #141413;
+  --color-fill-accent: #141413;
+  --color-brand: #1b1b1a;
+  --color-map: #262724;
+}
+
+/* Theme switch: the new theme is revealed in a growing circle (ThemeToggle.tsx). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background: var(--color-night);
+  color: var(--color-ink);
+}
+
+/* Arabic letters join up, so letter-spacing would break the words apart. */
+[dir="rtl"] body,
+[dir="rtl"] body * {
+  letter-spacing: 0 !important;
+}
+[dir="rtl"] .tag {
+  text-transform: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+@layer components {
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 2px rgb(41 41 40 / 0.04), 0 8px 24px -12px rgb(41 41 40 / 0.08);
+}
+
+/* Floating panels over the map (rail, report list, detail bar). */
+.panel {
+  background: var(--color-surface);
+  border-radius: 24px;
+  box-shadow: 0 1px 2px rgb(41 41 40 / 0.05), 0 12px 40px -16px rgb(41 41 40 / 0.22);
+}
+
+.label {
+  font-size: 12px;
+  color: var(--color-ink-3);
+  font-weight: 500;
+}
+
+/* Small uppercase status tag, like "IN TRANSIT" in the design. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 7px;
+  padding: 3px 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+}
+
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-ink) 18%, transparent) transparent;
+}
+
+/* ── Map markers ──────────────────────────────────────────────────── */
+.fms-marker {
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+.fms-marker .dot {
+  position: absolute;
+  inset: 5px;
+  border-radius: 999px;
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.3);
+}
+.fms-marker .halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  opacity: 0.25;
+}
+.fms-marker.critical .halo {
+  animation: fms-pulse 1.8s ease-out infinite;
+}
+.fms-marker.selected .dot {
+  inset: 2px;
+  border-color: var(--color-ink);
+  border-width: 3px;
+}
+@keyframes fms-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fms-marker.critical .halo {
+    animation: none;
+  }
+}
+
+/* doubled class beats leaflet.css, which loads later */
+.leaflet-container.leaflet-container {
+  background: var(--color-map);
+  font-family: var(--font-sans);
+}
+/* Grey basemap for the raster fallback (when vector tiles can't load). */
+.fms-grey-tiles {
+  filter: grayscale(1) contrast(0.92) brightness(1.06);
+}
+[data-theme="dark"] .fms-grey-tiles {
+  filter: grayscale(1) invert(1) contrast(0.85) brightness(0.8);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 0 10px 30px -10px rgb(41 41 40 / 0.35);
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 16px;
+}
+.leaflet-popup-content {
+  margin: 12px 14px;
+}
+.leaflet-popup-content a {
+  color: var(--color-ink);
+}
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--color-ink-3);
+}
+.leaflet-touch .leaflet-control-zoom.leaflet-bar,
+.leaflet-control-zoom.leaflet-bar {
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgb(41 41 40 / 0.06), 0 6px 20px -10px rgb(41 41 40 / 0.3);
+}
+.leaflet-control-zoom a {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  color: var(--color-ink) !important;
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-hairline) !important;
+}
+.leaflet-control-zoom a:hover {
+  background-color: var(--color-surface-high) !important;
+}
+.leaflet-control-attribution {
+  background: color-mix(in srgb, var(--color-surface) 75%, transparent) !important;
+  color: var(--color-ink-3);
+  border-radius: 8px 0 0 0;
+  font-size: 10px;
+}
+
+/* Spinner */
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ── Sign-in page motion ──────────────────────────────────────────── */
+
+/* Tareeq ⇄ طريق */
+.word-swap {
+  transition: width 650ms cubic-bezier(0.65, 0, 0.35, 1);
+  perspective: 600px;
+}
+.ws-in .ws-letter {
+  animation: ws-letter-in 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(280ms + var(--i) * 45ms);
+}
+.ws-out .ws-letter {
+  animation: ws-letter-out 420ms cubic-bezier(0.55, 0, 0.8, 0.3) both;
+  animation-delay: calc(var(--i) * 28ms);
+}
+.ws-ar.ws-in {
+  /* waits for the outgoing word to clear first */
+  animation: ws-ar-in 850ms cubic-bezier(0.2, 0.8, 0.2, 1) 280ms both;
+}
+.ws-ar.ws-out {
+  animation: ws-ar-out 420ms cubic-bezier(0.55, 0, 0.8, 0.3) both;
+}
+.ws-hidden {
+  opacity: 0;
+}
+@keyframes ws-letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em) rotateX(-75deg);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes ws-letter-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.5em) rotateX(60deg);
+    filter: blur(6px);
+  }
+}
+@keyframes ws-ar-in {
+  from {
+    opacity: 0;
+    clip-path: inset(-30% -10% -30% 100%);
+    transform: translateX(10px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(-30% -10% -30% -10%);
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes ws-ar-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.4em);
+    filter: blur(6px);
+  }
+}
+
+/* Living road map */
+.lr-spot {
+  animation: lr-spot 18s ease-in-out infinite alternate;
+}
+@keyframes lr-spot {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(170px, 160px);
+  }
+  100% {
+    transform: translate(60px, 320px);
+  }
+}
+.lr-pulse {
+  stroke-dasharray: 70 930;
+  animation-name: lr-pulse;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0.9;
+}
+@keyframes lr-pulse {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.lr-mark-dash {
+  animation: lr-mark-dash 0.9s linear infinite;
+}
+@keyframes lr-mark-dash {
+  to {
+    stroke-dashoffset: -11;
+  }
+}
+
+/* Language popup */
+.lang-backdrop {
+  animation: lang-fade 220ms ease-out both;
+}
+.lang-card {
+  animation: lang-pop 380ms cubic-bezier(0.2, 0.9, 0.25, 1.05) both;
+}
+@keyframes lang-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes lang-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+}
+
+/* Panel content rises in on load */
+.rise {
+  animation: rise 800ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lr-spot,
+  .lr-pulse,
+  .lr-mark-dash,
+  .lang-backdrop,
+  .lang-card,
+  .rise {
+    animation: none !important;
+  }
+  .lr-pulse {
+    display: none;
+  }
+}
+
+[data-theme="dark"] .leaflet-control-attribution a {
+  color: var(--color-ink-2);
+}
+[data-theme="dark"] .card,
+[data-theme="dark"] .panel {
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 40px -16px rgb(0 0 0 / 0.7);
+}
+
+/* ── Phones & tablets ─────────────────────────────────────────────── */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+a,
+button,
+[role="tab"],
+label {
+  touch-action: manipulation; /* no double-tap-zoom delay */
+}
+@media (pointer: coarse) {
+  /* iPhones zoom the page when a field's text is under 16px — keep it at 16. */
+  input:not([inputmode="numeric"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  /* Pinch to zoom instead of +/- buttons; keeps the map clean. */
+  .leaflet-control-zoom {
+    display: none;
+  }
+  /* Quiet press feedback, like native apps. */
+  :where(a, button, [role="tab"]):not(:disabled):active {
+    opacity: 0.72;
+    transition: opacity 60ms;
+  }
+  /* Hide scrollbars on horizontally scrolling chip rows. */
+  .chip-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+.chip-scroll {
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.chip-scroll > * {
+  scroll-snap-align: start;
+}

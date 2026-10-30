@@ -35,7 +35,7 @@ class AppConfig {
   static const String mongoUri = String.fromEnvironment(
     'MONGO_URI',
     defaultValue:
-        r'mongodb+srv://sohambhongade15:Tabpro123@cluster0.xxxxx.mongodb.net/fixmystreet?retryWrites=true&w=majority',
+        r'mongodb+srv://<user>:<password>@<cluster>.mongodb.net/fixmystreet?retryWrites=true&w=majority',
   );
 
   /// Mongo collection where reports are persisted.

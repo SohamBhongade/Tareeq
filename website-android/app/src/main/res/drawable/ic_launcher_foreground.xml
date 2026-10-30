@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- road -->
+    <path android:fillColor="#FFFFFF" android:pathData="M40,80 L68,80 L58,30 L50,30 Z" />
+    <!-- centre dashes -->
+    <path android:fillColor="#0F766E"
+        android:pathData="M52.9,71 h2.2 v7 h-2.2z M53.2,58 h1.6 v6 h-1.6z M53.4,46.5 h1.2 v5 h-1.2z M53.6,36 h0.8 v4 h-0.8z" />
+</vector>

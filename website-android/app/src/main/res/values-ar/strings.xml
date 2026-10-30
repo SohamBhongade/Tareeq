@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="offline_title">لا يوجد اتصال بالإنترنت</string>
+    <string name="offline_message">تحقق من اتصالك ثم حاول مرة أخرى.</string>
+    <string name="retry">حاول مرة أخرى</string>
+    <string name="choose_photo">إضافة صورة</string>
+</resources>

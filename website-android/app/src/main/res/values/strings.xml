@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tareeq</string>
+
+    <!-- ===== THE ONLY LINE YOU NEED TO CHANGE: your website address (must start with https://) ===== -->
+    <string name="start_url" translatable="false">https://tareeq-rak.vercel.app</string>
+
+    <string name="offline_title">No internet connection</string>
+    <string name="offline_message">Check your connection and try again.</string>
+    <string name="retry">Try again</string>
+    <string name="choose_photo">Add a photo</string>
+</resources>

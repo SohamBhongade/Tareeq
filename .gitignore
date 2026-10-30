@@ -46,3 +46,26 @@ app.*.map.json
 
 # Secret credentials — never commit these
 lib/core/config.dart
+
+# Secret credentials — never commit these
+lib/core/config.dart
+
+# ---- Website (website/) ----
+**/node_modules/
+**/.next/
+**/.vercel/
+.env
+.env.local
+.env*.local
+**/.env
+**/.env.local
+**/.env*.local
+*.tsbuildinfo
+
+# ---- Android wrapper (website-android/) ----
+**/.gradle/
+**/local.properties
+website-android/app/build/
+*.apk
+*.keystore
+*.jks

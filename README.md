@@ -15,6 +15,20 @@
 
 ---
 
+## Tareeq: everything in one repository
+
+FixMyStreet AI is now **Tareeq** (طريق, "road"). This repository holds every version:
+
+| Folder | What it is |
+|---|---|
+| *(top level)* | The original **Flutter mobile app** (FixMyStreet AI), described in the rest of this README. |
+| [`website/`](website) | The **Tareeq website**: Next.js, Google Gemini vision, MongoDB Atlas, English/Arabic. Live at **https://tareeq-rak.vercel.app**. Setup is in its own README. |
+| [`website-android/`](website-android) | A small **Android app that opens the Tareeq website** full-screen, with camera, GPS and an offline screen. |
+
+**Get the Android APK:** open the **Actions** tab, then the latest *Build Tareeq APK* run, and download **Tareeq-apk**.
+
+---
+
 ## Introduction
 
 A pothole on Al Muntasir Road. A junction box with copper wiring spilling out at child height. A wall of fresh graffiti in Al Riffa. In most cities, these problems wait. They wait for someone to find the right phone number, for a clerk to decode a vague description, for a supervisor to guess how serious it is, and for a crew to work out where it actually is.
