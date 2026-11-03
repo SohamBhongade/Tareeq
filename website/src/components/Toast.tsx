@@ -11,12 +11,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const push = useCallback((text: string, tone: Tone = "ok") => {
     const id = Date.now() + Math.random();
     setItems((xs) => [...xs, { id, text, tone }]);
-    setTimeout(() => setItems((xs) => xs.filter((x) => x.id !== id)), 4200);
+    setTimeout(() => setItems((xs) => xs.filter((x) => x.id !== id)), Math.min(10000, 3500 + text.length * 40));
   }, []);
   return (
     <Ctx.Provider value={push}>
       {children}
-      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-20 z-[1200] flex flex-col items-center gap-2 px-4 lg:bottom-6">
+      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[1200] flex flex-col items-center gap-2 px-4 lg:bottom-6">
         {items.map((t) => (
           <div
             key={t.id}

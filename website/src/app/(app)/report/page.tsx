@@ -16,6 +16,7 @@ import {
 import type { AnalysisResult, DuplicateMatch, Report } from "@/lib/types";
 import { DuplicatePanel } from "./DuplicatePanel";
 import { useI18n } from "@/lib/i18n/client";
+import { geoFailKey, geoPermission, getPosition, type GeoFail } from "@/lib/geoClient";
 
 type Loc = { lat: number; lng: number; accuracy?: number; source: "gps" | "map" };
 
@@ -33,7 +34,8 @@ export default function ReportPage() {
   const [category, setCategory] = useState<string>("");
 
   const [loc, setLoc] = useState<Loc | null>(null);
-  const [locState, setLocState] = useState<"idle" | "locating" | "denied" | "ok">("idle");
+  const [locState, setLocState] = useState<"idle" | "locating" | "failed" | "ok">("idle");
+  const [locFail, setLocFail] = useState<GeoFail | null>(null);
   const [address, setAddress] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
   const [matches, setMatches] = useState<DuplicateMatch[]>([]);
@@ -44,16 +46,23 @@ export default function ReportPage() {
   }, []);
 
   // ── location ────────────────────────────────────────────────────────
-  const locate = useCallback(() => {
-    if (!("geolocation" in navigator)) { setLocState("denied"); return; }
+  const locate = useCallback(async () => {
     setLocState("locating");
-    navigator.geolocation.getCurrentPosition(
-      (p) => { setLoc({ lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy, source: "gps" }); setLocState("ok"); },
-      () => setLocState("denied"),
-      { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 },
-    );
+    setLocFail(null);
+    try {
+      const p = await getPosition();
+      setLoc({ lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy, source: "gps" });
+      setLocState("ok");
+    } catch (reason) {
+      setLocFail(reason as GeoFail);
+      setLocState("failed");
+    }
   }, []);
-  useEffect(() => { locate(); }, [locate]);
+  // Only fetch automatically if location was already allowed — otherwise wait
+  // for a tap, so no surprise permission pop-up (Android & iPhone).
+  useEffect(() => {
+    geoPermission().then((p) => { if (p === "granted") locate(); });
+  }, [locate]);
 
   useEffect(() => {
     if (!loc) return;
@@ -256,18 +265,31 @@ export default function ReportPage() {
           <div className="card overflow-hidden">
             <div className="flex items-center justify-between px-4 pt-4">
               <span className="label">{t("common.location")}</span>
-              <button type="button" onClick={locate} className="-my-2 -me-2 flex items-center gap-1 rounded-lg px-2 py-2 text-xs font-medium text-olive hover:underline">
-                <Icon name="target" size={14} /> {t("report.useMyLocation")}
+              <button type="button" onClick={locate} disabled={locState === "locating"}
+                className={`-my-1.5 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors disabled:opacity-60 ${
+                  loc ? "text-olive hover:underline" : "bg-fill text-on-fill"
+                }`}>
+                {locState === "locating" ? <span className="spin size-3.5 rounded-full border-2 border-current/30 border-t-current" /> : <Icon name="target" size={14} />}
+                {t("report.useMyLocation")}
               </button>
             </div>
+            {!loc && (locState === "idle" || (locState === "failed" && locFail)) && (
+              <div className="px-4 pt-2.5 text-sm" aria-live="polite">
+                {locState === "idle" ? (
+                  <p className="text-ink-3">{t("report.locAsk")}</p>
+                ) : (
+                  <p className="flex items-start gap-2 rounded-xl bg-moderate/10 px-3 py-2.5 text-moderate">
+                    <Icon name="alert" size={16} className="mt-0.5 shrink-0" />
+                    <span>{t(geoFailKey(locFail!))}</span>
+                  </p>
+                )}
+              </div>
+            )}
             <div className="mt-3 h-64">
               <LiveMap pin={loc ? [loc.lat, loc.lng] : null} center={loc ? [loc.lat, loc.lng] : undefined} zoom={loc ? 16 : 11} onPick={pickOnMap} />
             </div>
             <div className="space-y-2 px-4 py-3.5 text-sm">
               {locState === "locating" && <p className="text-ink-3">{t("report.finding")}</p>}
-              {locState === "denied" && !loc && (
-                <p className="text-moderate">{t("report.locOff")}</p>
-              )}
               {loc && (
                 <>
                   <p className="flex items-start gap-2"><Icon name="pin" size={16} className="mt-0.5 shrink-0 text-olive" />{address || t("report.lookingUp")}</p>

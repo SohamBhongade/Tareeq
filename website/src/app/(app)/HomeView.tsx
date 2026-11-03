@@ -9,6 +9,8 @@ import { ConfirmChip, STATUS_PROGRESS, StatusChip, severityColor } from "@/compo
 import { SEVERITY_COLORS, RAK_CENTER } from "@/components/mapTypes";
 import { isVolunteerEligible, severityBand } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/client";
+import { useToast } from "@/components/Toast";
+import { geoFailKey, getPosition, type GeoFail } from "@/lib/geoClient";
 import type { Report } from "@/lib/types";
 
 type Tab = "active" | "fixed";
@@ -136,6 +138,7 @@ export function HomeView({ initial }: { initial: Report[] }) {
   const { reports, online } = useReports(initial);
   const i18n = useI18n();
   const { t, cat } = i18n;
+  const toast = useToast();
   const [tab, setTab] = useState<Tab>("active");
   const [q, setQ] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null); // nothing selected until the user picks one
@@ -178,16 +181,16 @@ export function HomeView({ initial }: { initial: Report[] }) {
       );
     }
   };
-  const locate = () => {
-    navigator.geolocation?.getCurrentPosition(
-      (p) => {
-        const here: [number, number] = [p.coords.latitude, p.coords.longitude];
-        setMe(here);
-        setView({ center: here, zoom: 15 });
-      },
-      () => setView({ center: RAK_CENTER, zoom: 13 }),
-      { enableHighAccuracy: true, timeout: 8000 },
-    );
+  const locate = async () => {
+    try {
+      const p = await getPosition();
+      const here: [number, number] = [p.coords.latitude, p.coords.longitude];
+      setMe(here);
+      setView({ center: here, zoom: 15 });
+    } catch (reason) {
+      setView({ center: RAK_CENTER, zoom: 13 });
+      toast(t(geoFailKey(reason as GeoFail)), "warn");
+    }
   };
 
   return (
