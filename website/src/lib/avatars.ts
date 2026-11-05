@@ -14,7 +14,7 @@ export interface Avatar {
 }
 
 export const AVATARS: Avatar[] = [
-  // 20 free avatars
+  // 21 free avatars
   { id: "lorelei-1", name: "Mariam", rarity: "free", unlockExp: 0 },
   { id: "lorelei-2", name: "Omar", rarity: "free", unlockExp: 0 },
   { id: "lorelei-3", name: "Layla", rarity: "free", unlockExp: 0 },
@@ -35,6 +35,7 @@ export const AVATARS: Avatar[] = [
   { id: "peeps-hindu", name: "Priya", rarity: "free", unlockExp: 0 },
   { id: "lorelei-6", name: "Arjun", rarity: "free", unlockExp: 0 },
   { id: "notion-5", name: "Ananya", rarity: "free", unlockExp: 0 },
+  { id: "peeps-emirati-w", name: "Hessa", rarity: "free", unlockExp: 0 },
   // 8 unlockable with EXP
   { id: "pixel-1", name: "Pixel Scout", rarity: "rare", unlockExp: 150 },
   { id: "pixel-2", name: "Pixel Ranger", rarity: "rare", unlockExp: 300 },
