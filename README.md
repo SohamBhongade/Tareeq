@@ -1,524 +1,466 @@
 <p align="center">
-  <img src="docs/images/banner.jpg" alt="FixMyStreet AI — civic intelligence for Ras Al Khaimah" width="100%">
+  <a href="https://tareeq-rak.vercel.app">
+    <img src="docs/tareeq/banner.svg" width="100%" alt="Tareeq (طريق): AI civic reporting for Ras Al Khaimah. Spot it. Snap it. Fixed.">
+  </a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white" alt="Flutter">
-  <img src="https://img.shields.io/badge/Dart-3.11-0175C2?logo=dart&logoColor=white" alt="Dart">
-  <img src="https://img.shields.io/badge/Vision%20AI-Llama%204%20Scout-6B4FBB" alt="Llama 4 Scout">
-  <img src="https://img.shields.io/badge/Inference-Groq-F55036" alt="Groq">
-  <img src="https://img.shields.io/badge/Database-MongoDB%20Atlas-47A248?logo=mongodb&logoColor=white" alt="MongoDB Atlas">
-  <img src="https://img.shields.io/badge/Maps-flutter__map%20%2B%20CARTO-A8B870" alt="flutter_map">
+  <a href="https://tareeq-rak.vercel.app"><img src="https://img.shields.io/badge/Open%20Tareeq-Live%20website-c3f832?style=for-the-badge&logo=googlechrome&logoColor=292928&labelColor=292928" alt="Open the live website"></a>
+  &nbsp;
+  <a href="https://github.com/SohamBhongade/Tareeq/actions/workflows/build-apk.yml"><img src="https://img.shields.io/badge/Android%20app-Get%20the%20APK-c3f832?style=for-the-badge&logo=android&logoColor=292928&labelColor=292928" alt="Get the Android APK"></a>
 </p>
 
-<h3 align="center">Every phone becomes a municipal sensor.<br>Every report becomes a work order.<br>Every resident becomes part of the repair crew.</h3>
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-16-292928?logo=nextdotjs&logoColor=white" alt="Next.js 16">
+  <img src="https://img.shields.io/badge/React-19-292928?logo=react&logoColor=61DAFB" alt="React 19">
+  <img src="https://img.shields.io/badge/TypeScript-5-292928?logo=typescript&logoColor=3178C6" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Tailwind-v4-292928?logo=tailwindcss&logoColor=38BDF8" alt="Tailwind CSS v4">
+  <img src="https://img.shields.io/badge/Google%20Gemini-vision%20AI-292928?logo=googlegemini&logoColor=8E75B2" alt="Google Gemini">
+  <img src="https://img.shields.io/badge/MongoDB-Atlas-292928?logo=mongodb&logoColor=47A248" alt="MongoDB Atlas">
+  <img src="https://img.shields.io/badge/Vercel-hosted-292928?logo=vercel&logoColor=white" alt="Vercel">
+  <img src="https://img.shields.io/badge/Android-WebView%20app-292928?logo=android&logoColor=3DDC84" alt="Android">
+</p>
+
+<h3 align="center">A pothole, a broken light, a pile of rubbish.<br>Take one photo. Tareeq does the rest.</h3>
+
+<p align="center">
+  <img src="docs/tareeq/showcase.webp" width="100%" alt="Tareeq on a laptop and two phones, in light and dark mode">
+</p>
+
+## 🎬 Launch video
+
+<p align="center">
+  <a href="https://github.com/SohamBhongade/Tareeq/blob/main/docs/tareeq/Tareeq_launch.mp4">
+    <img src="docs/tareeq/launch-preview.webp" width="100%" alt="Preview of the Tareeq launch video. Click to watch the full 95-second video">
+  </a>
+  <br>
+  <sub>▶ Click the preview to watch the full 95-second video with sound &nbsp;·&nbsp; <a href="https://github.com/SohamBhongade/Tareeq/raw/main/docs/tareeq/Tareeq_launch.mp4">download MP4</a></sub>
+</p>
 
 ---
 
-## Tareeq: everything in one repository
+**Tareeq** (طريق, Arabic for *"road"* or *"the way"*) helps the residents of Ras Al Khaimah report street problems and get them fixed. A resident photographs the issue. **Google Gemini** works out what it is, scores how dangerous it is and writes a description in **English and Arabic**. The report drops onto a **live city map** with its exact GPS location and street address. City crews take the serious jobs. Small jobs, like litter or graffiti, go to **community volunteers**, whose before-and-after photos a City Admin checks before they earn points.
 
-FixMyStreet AI is now **Tareeq** (طريق, "road"). This repository holds every version:
+It runs as a **website** that works on any laptop or phone, and as an **Android app** that opens the same site full-screen. Both share one database, so a report from either one appears everywhere within seconds.
 
-| Folder | What it is |
-|---|---|
-| *(top level)* | The original **Flutter mobile app** (FixMyStreet AI), described in the rest of this README. |
-| [`website/`](website) | The **Tareeq website**: Next.js, Google Gemini vision, MongoDB Atlas, English/Arabic. Live at **https://tareeq-rak.vercel.app**. Setup is in its own README. |
-| [`website-android/`](website-android) | A small **Android app that opens the Tareeq website** full-screen, with camera, GPS and an offline screen. |
-
-**Get the Android APK:** open the **Actions** tab, then the latest *Build Tareeq APK* run, and download **Tareeq-apk**.
-
----
-
-## Introduction
-
-A pothole on Al Muntasir Road. A junction box with copper wiring spilling out at child height. A wall of fresh graffiti in Al Riffa. In most cities, these problems wait. They wait for someone to find the right phone number, for a clerk to decode a vague description, for a supervisor to guess how serious it is, and for a crew to work out where it actually is.
-
-**FixMyStreet AI removes the waiting.**
-
-A resident points their camera at the problem. Within seconds, a **multimodal mixture-of-experts vision model (17B active parameters)** looks at the photo the way a senior municipal inspector would. It names the defect against a fixed **15-class infrastructure taxonomy**, scores the danger on a **1–10 severity scale**, and writes a factual field note. The phone's GPS fixes the report to **exact coordinates**, and reverse geocoding turns those into a street address. The issue appears on a **live, severity-coded map of Ras Al Khaimah** for every resident and every city administrator at once.
-
-That first step starts a **closed-loop civic system**:
-
-- **Deterministic severity reconciliation.** The model proposes a severity, and a canonical rule table decides it, so an AI misjudgement can never move a dangerous job onto a volunteer's list.
-- **A role-aware state machine.** It sends high-risk hazards to city crews and opens low-risk fixes to the community.
-- **Proof-of-work verification.** A volunteer's after photo sits next to the original report until a city admin signs it off.
-- **A civic EXP economy.** Residents earn points for reporting problems and more for fixing them.
-
-> **Snap → Classify → Map → Volunteer → Prove → Verify → Reward.**
-> One tap starts it. The city's live picture updates every three seconds.
-
-Built in Flutter for Ras Al Khaimah, UAE.
-
----
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h4>📸 One photo, no forms</h4>
+      The AI picks the category, severity and description. GPS and the street address fill in automatically.
+    </td>
+    <td width="33%" valign="top">
+      <h4>🗺️ Live city map</h4>
+      Every report is colour-coded by danger. The list refreshes every 3 seconds, with no page reload.
+    </td>
+    <td width="33%" valign="top">
+      <h4>🧹 Volunteers can fix it</h4>
+      Minor issues become community tasks. A City Admin approves the proof photo before the issue closes.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h4>🔁 No duplicate reports</h4>
+      Same problem within 60 m? Residents confirm the existing report instead, so the city sees how many people are affected.
+    </td>
+    <td valign="top">
+      <h4>🛡️ Fake photos refused</h4>
+      AI-generated images are caught by their file labels, by the vision model and by a server-side lock.
+    </td>
+    <td valign="top">
+      <h4>🏆 EXP, badges and avatars</h4>
+      Residents earn EXP for reporting and fixing, climb the leaderboard and unlock badges and avatars.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h4>🌐 English · العربية</h4>
+      The whole site switches to Arabic and right-to-left in one tap, including AI descriptions and emails.
+    </td>
+    <td valign="top">
+      <h4>🌙 Light and dark mode</h4>
+      A circular reveal animation, plus a dark map tuned to the Tareeq green.
+    </td>
+    <td valign="top">
+      <h4>📱 Built for phones</h4>
+      An Apple Maps-style sliding sheet, safe areas for the notch, and testing from 320 to 430 px wide.
+    </td>
+  </tr>
+</table>
 
 ## Contents
 
-- [The 10-second report](#-the-10-second-report)
+- [Launch video](#-launch-video)
+- [Try it now](#-try-it-now)
+- [How it works](#-how-it-works)
 - [Feature tour](#-feature-tour)
-  - [1 · Role-based entry](#1--role-based-entry)
-  - [2 · Live civic map](#2--live-civic-map)
-  - [3 · Vision AI triage](#3--vision-ai-triage)
-  - [4 · Issue Console](#4--issue-console)
-  - [5 · Severity guardrail](#5--severity-guardrail)
-  - [6 · Volunteer → Proof → Verify pipeline](#6--volunteer--proof--verify-pipeline)
-  - [7 · Civic EXP economy](#7--civic-exp-economy)
-  - [8 · Self-healing data layer](#8--self-healing-data-layer)
-- [System architecture](#-system-architecture)
-- [The issue taxonomy](#-the-issue-taxonomy)
-- [Data model](#-data-model)
+- [The rules behind every report](#-the-rules-behind-every-report)
+- [Architecture](#-architecture)
 - [Tech stack](#-tech-stack)
-- [Project structure](#-project-structure)
-- [Getting started](#-getting-started)
-- [Roadmap](#-roadmap)
+- [Run it yourself](#-run-it-yourself)
+- [Repository layout](#-repository-layout)
+- [From FixMyStreet AI to Tareeq](#-from-fixmystreet-ai-to-tareeq)
 - [Team](#-team)
 
 ---
 
-## ⚡ The 10-second report
+## 🚀 Try it now
 
-<table>
-  <tr>
-    <td align="center" width="25%"><img src="docs/screenshots/04_capture.png" width="200"><br><b>1. Capture</b><br><sub>Camera or gallery</sub></td>
-    <td align="center" width="25%"><img src="docs/screenshots/05_ai_analyzing.png" width="200"><br><b>2. Analyze</b><br><sub>Llama 4 Scout inspects the image</sub></td>
-    <td align="center" width="25%"><img src="docs/screenshots/06_ai_result.png" width="200"><br><b>3. Review</b><br><sub>Category · severity · GPS · address</sub></td>
-    <td align="center" width="25%"><img src="docs/screenshots/07_report_submitted.png" width="200"><br><b>4. Submitted</b><br><sub>Live on the map · <b>+50 EXP</b></sub></td>
-  </tr>
-</table>
+| | |
+|---|---|
+| 🌐 **Website** | **[tareeq-rak.vercel.app](https://tareeq-rak.vercel.app)**: works in any browser, on laptop or phone |
+| 🤖 **Android app** | Open the **[Actions](https://github.com/SohamBhongade/Tareeq/actions/workflows/build-apk.yml)** tab, choose the latest green *Build Tareeq APK* run and download **Tareeq-apk**. Unzip it and install `Tareeq.apk` |
+| 👤 **Demo resident** | `Resident1` / `123` |
+| 🛡️ **Demo City Admin** | `CityAdmin` / `12345` |
 
-The resident adds no form fields, no category menu and no typed description. The model and the device sensors provide everything the city needs to act.
+You can also create your own account on the sign-up page. Tareeq emails a 6-digit code to confirm the address.
+
+---
+
+## ⚡ How it works
+
+```mermaid
+flowchart LR
+    A["📸 Snap<br/>resident takes a photo"] --> B["🤖 AI triage<br/>category · severity · EN + AR text"]
+    B --> C["📍 Locate<br/>GPS + street address"]
+    C --> D{"Same issue<br/>within 60 m?"}
+    D -- yes --> E["👍 Confirm existing<br/>+10 EXP"]
+    D -- no --> F["🗺️ Live on the map<br/>+50 EXP"]
+    F --> G{"Severity"}
+    G -- "1–3 minor" --> H["🧹 Volunteer fixes it<br/>uploads proof photo"]
+    G -- "4–10" --> I["🚧 City crew<br/>dispatched by admin"]
+    H --> J["✅ City Admin verifies<br/>+250 EXP to volunteer"]
+    I --> K["✅ Marked resolved"]
+    J --> L["🗑️ Auto-deleted<br/>28 days after fixing"]
+    K --> L
+```
 
 ---
 
 ## 🧭 Feature tour
 
-### 1 · Role-based entry
+### 1 · Report a problem in seconds
 
 <table>
   <tr>
-    <td width="260"><img src="docs/screenshots/01_login.png" width="240"></td>
-    <td>
-
-The app opens on a branded sign-in screen and resolves each account to one of two roles:
-
-| Role | What they can do |
-|---|---|
-| 🧑 **Resident** | Report issues, browse the live map, volunteer for low-risk tasks, submit proof of work, earn EXP |
-| 🛡️ **City Admin** | Everything a resident can do, plus **verify and resolve** volunteer work, which closes the loop |
-
-When a user logs in, the app pulls their **live EXP balance from MongoDB**. A new account is seeded on first login. The app also starts a **background warm-up fetch** of every report, so the home map already has data while the login screen animates out.
-
-Before `runApp()` even fires, `main()` **completes the MongoDB handshake**. The app's first frame therefore renders against a verified, open database connection rather than racing it.
-
-</td>
+    <td align="center" width="25%"><img src="docs/tareeq/ph-report.webp" width="200"><br><sub><b>Take or upload a photo</b></sub></td>
+    <td align="center" width="25%"><img src="docs/tareeq/ph-report-dark.webp" width="200"><br><sub><b>Pin the exact spot</b><br>GPS, or tap the map</sub></td>
+    <td align="center" width="50%"><img src="docs/tareeq/desk-proof.webp" width="100%"><br><sub><b>The finished report</b>: AI classification, map, street and coordinates</sub></td>
   </tr>
 </table>
 
-### 2 · Live civic map
+- **AI triage.** Gemini looks at the photo and returns one of 15 categories, a 1–10 severity and a short description in English and Arabic. Each category has a fixed severity set by the city, which overrides the AI's guess, so an AI mistake can never send a dangerous job to a volunteer.
+- **Exact location.** The phone's GPS fixes the coordinates and the street address is looked up automatically (Google Geocoding when a key is set, OpenStreetMap otherwise). Location is only asked for when you tap *Use my location*, with clear help messages for Android and iPhone.
+- **Duplicate check.** Before submitting, Tareeq searches for an open report of the same kind within 60 m (25 m for *Other*). You can confirm that report instead (+10 EXP) or file a new one anyway.
+- **Fake-photo protection** in three layers:
+  1. **File labels.** Most AI image tools (Gemini/Imagen, ChatGPT/DALL·E, Midjourney, Firefly, Stable Diffusion and others) stamp their files with metadata. The browser reads it before the photo is shrunk and refuses the photo straight away.
+  2. **Vision check.** The AI model also judges the picture itself, which catches AI images whose labels were stripped (screenshots, WhatsApp forwards).
+  3. **Server lock.** Only a photo that passed gets a signed *photo pass* tied to that exact image and user. The server refuses any report without one, so skipping the check in the browser doesn't work.
+
+### 2 · A live map of the whole city
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/02_home.png" width="240"><br><sub>Home — live map with report counter</sub></td>
-    <td align="center"><img src="docs/screenshots/03_community_map.png" width="240"><br><sub>Full-screen community map with legend</sub></td>
+    <td align="center" width="70%"><img src="docs/tareeq/desk-home.webp" width="100%"><br><sub>Desktop: icon rail and reports list floating over the map</sub></td>
+    <td align="center" width="30%"><img src="docs/tareeq/ph-home.webp" width="100%"><br><sub>Phone: full-width map with a sliding sheet</sub></td>
   </tr>
 </table>
 
-The home screen is a **live operational picture of Ras Al Khaimah**:
+- Markers are colour-coded **🔴 critical · 🟠 moderate · 🟢 minor · ⚪ fixed**.
+- **Active / Fixed** tabs and search by issue, area or report ID (`#27F750`).
+- The list refreshes every **3 seconds**, with a *Live* / *Reconnecting* indicator.
+- Tap a report to expand it: status bar, severity, reporter, who will fix it, and a button to show it on the map.
+- Free maps from **OpenFreeMap** with no API key. Google Maps is used instead if a key is set.
 
-- Every report renders as a **severity-coded marker**: 🔴 **Critical** (7–10), 🟠 **Moderate** (4–6) and 🟢 **Minor** (1–3).
-- **Critical markers pulse.** An animated ring radiates outward from them, so the most dangerous hazards stand out first.
-- A **"N live reports"** counter sits on the map, and the feed **re-polls MongoDB every 3 seconds**. New reports from other phones appear without a refresh.
-- The camera is **anchored on RAK** (25.7911° N, 55.9432° E) and **clamped to the UAE's bounds**, so users can't scroll off into the ocean.
-- Tapping any marker opens a detail sheet: photo, AI classification, address and volunteer eligibility.
-
-Tiles come from **CARTO's light basemap**, rendered by `flutter_map`. It is lightweight, needs no API key and shows Arabic and English place names.
-
-### 3 · Vision AI triage
+### 3 · Issue console and issue page
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/05_ai_analyzing.png" width="220"><br><sub>Inference in flight</sub></td>
-    <td align="center"><img src="docs/screenshots/06_ai_result.png" width="220"><br><sub>Model output: <i>Litter Accumulation · 4/10</i></sub></td>
-    <td align="center"><img src="docs/screenshots/11_in_progress.png" width="220"><br><sub>Persisted record: reconciled to <b>1/10</b></sub></td>
+    <td align="center" width="62%"><img src="docs/tareeq/desk-console.webp" width="100%"><br><sub>Totals, filters by status, search and sorting</sub></td>
+    <td align="center" width="19%"><img src="docs/tareeq/ph-console-dark.webp" width="100%"><br><sub>Console on a phone</sub></td>
+    <td align="center" width="19%"><img src="docs/tareeq/ph-issue.webp" width="100%"><br><sub>Issue page</sub></td>
   </tr>
 </table>
 
-This is the core of the system. When a photo is captured, `AIService` sends it, base64-encoded, to **Meta's Llama 4 Scout (17B, 16-expert mixture-of-experts)**. The request goes through **Groq's** OpenAI-compatible inference endpoint for low-latency responses.
+The console shows **Total · Open · Critical open · Fixed**, filters for every status, and sorting by newest, most severe or most confirmed. Each issue page holds the photo, AI classification, a mini map with street and coordinates, who reported it and who else has seen it, the assigned volunteer, before/after proof photos, and the date it will be deleted once resolved.
 
-**Prompt engineering:**
-
-- The system prompt casts the model as a **"senior municipal-maintenance inspector for Ras Al Khaimah"**.
-- The model must reply with **only** a JSON object holding exactly three keys: `category`, `severity` and `description`.
-- The allowed category list is **generated at runtime** from a single source of truth (`lib/core/issue_categories.dart`). The prompt, the manual dropdown and the persistence layer can therefore never drift apart.
-- A **synonym map** covers colloquial labels: "trash" → *Litter Accumulation*, "lamppost" → *Broken Street Lights*, "spray paint" → *Graffiti*, "sewage" → *Broken Pipelines*.
-- If the photo doesn't clearly match a category, the model must answer `"Other"` rather than invent one. The UI then shows a **manual classification dropdown**.
-- `temperature: 0.1` keeps classifications repeatable.
-
-**Defensive parsing:** Llama 4 sometimes wraps its output in Markdown fences or adds a `json` prefix. The parser strips both, clamps severity to 1–10, and falls back to a safe "review manually" result rather than crashing. HTTP failures are translated into plain-English messages: `400` bad image, `401` key problem, `429` rate limit, `503` Groq congestion.
-
-**Deterministic severity reconciliation:** the screenshots above show the AI scoring a litter photo **4/10 (Moderate)**. The stored record says **1/10 (Minor)**. That difference is deliberate. Before any report is written, `normalizeSeverityFor()` replaces the model's guess with the **canonical severity for that category**. The AI decides *what* a problem is, and the city's rule table decides *how dangerous* that category is. A model error therefore can't move a live-wire hazard into the volunteer queue, and safe tasks always stay available to the community.
-
-Every report also stores a derived **priority**: High at severity ≥ 7, Medium at 4–6, and Low at 3 or below.
-
-### 4 · Issue Console
+### 4 · Volunteer → proof → verify
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/08_issue_console.png" width="240"><br><sub>7 total · 7 open · 0 fixed</sub></td>
-    <td align="center"><img src="docs/screenshots/15_console_after.png" width="240"><br><sub>After the volunteer loop: fixed count climbs</sub></td>
+    <td align="center" width="33%"><img src="docs/tareeq/desk-pending.webp" width="100%"><br><sub><b>1 · Volunteer uploads proof</b></sub></td>
+    <td align="center" width="33%"><img src="docs/tareeq/desk-approve.webp" width="100%"><br><sub><b>2 · City Admin verifies and approves</b></sub></td>
+    <td align="center" width="33%"><img src="docs/tareeq/desk-resolved.webp" width="100%"><br><sub><b>3 · Resolved, +250 EXP</b></sub></td>
   </tr>
 </table>
 
-The console gives a citywide view of every report:
+Only **minor issues (severity 1–3)** can be claimed by a volunteer, and only one volunteer at a time. The volunteer uploads an *after* photo. A City Admin compares it with the original and either **approves** it (the issue closes and the volunteer earns 250 EXP) or **rejects** it (the task goes back to the volunteer). Admins can also dispatch a city crew for bigger jobs and mark any issue resolved.
 
-- **Live KPI tiles**: **Total · Open · Fixed**.
-- **Report cards** showing the photo thumbnail, AI category, reverse-geocoded street address, timestamp, a severity chip (e.g. `Critical · 10/10`) and a status chip (`Open`, `In Progress`, `Pending Verification`, `Resolved`).
-- One tap opens the full **Issue Detail** view.
-
-### 5 · Severity guardrail
+### 5 · EXP, badges, avatars and the leaderboard
 
 <table>
   <tr>
-    <td width="260"><img src="docs/screenshots/09_critical_guardrail.png" width="240"></td>
-    <td>
-
-Some jobs need a trained crew, not a volunteer with good intentions.
-
-Any report with **severity above 3** is **locked to municipal crews**. The Volunteer button is replaced by a warning:
-
-> ⚠️ *This is a high-severity critical issue. Please leave it to the municipal team.*
-
-The rule applies to **every role, admins included**, and it is enforced in two places:
-
-1. **In the UI**, which hides the volunteer action, and
-2. **In the database service**, which **re-reads the report from MongoDB** before any assignment and throws a `VerificationRuleException` if the rule is broken.
-
-Because the check runs against the server copy rather than the screen the user is looking at, a stale screen or a modified client can't get around it.
-
-</td>
+    <td align="center" width="25%"><img src="docs/tareeq/ph-leaderboard.webp" width="100%"><br><sub>Leaderboard podium</sub></td>
+    <td align="center" width="25%"><img src="docs/tareeq/ph-profile-dark.webp" width="100%"><br><sub>Profile and badges</sub></td>
+    <td align="center" width="25%"><img src="docs/tareeq/ph-avatars.webp" width="100%"><br><sub>Choose your avatar</sub></td>
+    <td align="center" width="25%"><img src="docs/tareeq/ph-rewards.webp" width="100%"><br><sub>Civic rewards</sub></td>
   </tr>
 </table>
 
-### 6 · Volunteer → Proof → Verify pipeline
+| Action | EXP |
+|---|:---:|
+| 📸 Report an issue | **+50** |
+| 👍 Confirm someone else's report | **+10** |
+| 🧹 Volunteer, fix and get verified | **+250** |
+| 🌱 New resident starting balance | 100 |
 
-Low-risk issues (graffiti, litter, overgrown vegetation, faded markings, damaged signs) become **community micro-tasks** with a full chain of custody:
+**8 badges** unlock automatically as EXP grows: 🌱 Newcomer (0) → Spotter (150) → Helper (300) → Street Guardian (500) → Neighbourhood Hero (1,000) → District Champion (2,000) → City Guardian (3,500) → 👑 RAK Legend (5,000).
+**29 avatars**: 21 free, plus 8 that unlock with EXP, from *Pixel Scout* at 150 to the legendary *RAK Legend* at 5,000. City Admins don't appear on the leaderboard.
+
+### 6 · English and Arabic
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/10_volunteer_confirm.png" width="180"><br><b>Volunteer</b><br><sub>Confirm assignment</sub></td>
-    <td align="center"><img src="docs/screenshots/11_in_progress.png" width="180"><br><b>In Progress</b><br><sub>Assigned · submit proof</sub></td>
-    <td align="center"><img src="docs/screenshots/12_pending_verification.png" width="180"><br><b>Pending</b><br><sub>Awaiting admin approval</sub></td>
-    <td align="center"><img src="docs/screenshots/13_admin_verify.png" width="180"><br><b>Verify</b><br><sub>Admin inspects proof</sub></td>
-    <td align="center"><img src="docs/screenshots/14_resolved.png" width="180"><br><b>Resolved</b><br><sub>Closed · +250 EXP</sub></td>
+    <td align="center" width="56%"><img src="docs/tareeq/desk-arabic.webp" width="100%"><br><sub>The whole site in Arabic, right-to-left</sub></td>
+    <td align="center" width="22%"><img src="docs/tareeq/ph-language.webp" width="100%"><br><sub>Language choice after sign-in</sub></td>
+    <td align="center" width="22%"><img src="docs/tareeq/ph-login-arabic.webp" width="100%"><br><sub>Arabic sign-in</sub></td>
   </tr>
 </table>
+
+After every sign-in, a popup asks **English or العربية**. Arabic switches the whole interface to right-to-left with the IBM Plex Sans Arabic font. You can switch any time with the **ع / EN** button. New reports get an Arabic description from the AI, and sign-up and password emails arrive in the chosen language.
+
+### 7 · Dark mode
+
+<table>
+  <tr>
+    <td align="center" width="70%"><img src="docs/tareeq/desk-dark.webp" width="100%"><br><sub>Dark map styled like Apple Maps at night, in Tareeq green</sub></td>
+    <td align="center" width="30%"><img src="docs/tareeq/ph-home-dark.webp" width="100%"><br><sub>Dark mode on a phone</sub></td>
+  </tr>
+</table>
+
+A sun/moon switch in the sidebar, phone header and sign-in page flips the theme with a circular reveal animation. The browser remembers your choice. The dark map keeps coastlines, sea and borders clearly visible.
+
+### 8 · Sign in and accounts
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="docs/tareeq/desk-login.webp" width="100%"><br><sub>Light sign-in</sub></td>
+    <td align="center" width="50%"><img src="docs/tareeq/desk-login-dark.webp" width="100%"><br><sub>Dark sign-in with moving "live roads"</sub></td>
+  </tr>
+</table>
+
+- Sign up with a username, email and password, then confirm with a **6-digit email code** (valid 10 minutes, 5 tries, resend after 45 s). *Forgot password* works the same way.
+- Without **Remember me**, a session ends when the browser closes (12 hours at most). With it, the session lasts 30 days.
+- Passwords are stored only as **scrypt** hashes, and sessions use signed cookies.
+
+### 9 · The Android app
+
+The app in [`website-android/`](website-android) is a light **WebView container** around the live site, so every website update reaches the app with no rebuild. It supports:
+
+- 📷 Camera and gallery uploads
+- 📍 GPS permission
+- ⬅️ The back button, which steps through page history
+- 📶 An offline screen with *Try again*, in English and Arabic
+- 🔗 WhatsApp, phone, email and map links, which open in their own apps
+- ↔️ Right-to-left layouts
+
+GitHub Actions builds the APK automatically on every push ([`build-apk.yml`](.github/workflows/build-apk.yml)).
+
+---
+
+## 📐 The rules behind every report
+
+<details>
+<summary><b>15 issue categories and their fixed severity</b></summary>
+
+| Category | Severity | Band | Who fixes it |
+|---|:---:|:---:|---|
+| Exposed Wiring | 10 | 🔴 Critical | City crew |
+| Broken Pipelines | 10 | 🔴 Critical | City crew |
+| Potholes | 8 | 🔴 Critical | City crew |
+| Traffic Signal Malfunction | 8 | 🔴 Critical | City crew |
+| Broken Guardrails | 7 | 🔴 Critical | City crew |
+| Broken Street Lights | 6 | 🟠 Moderate | City crew |
+| Water Accumulation | 5 | 🟠 Moderate | City crew |
+| Cracked Sidewalks | 5 | 🟠 Moderate | City crew |
+| Illegal Dumping | 5 | 🟠 Moderate | City crew |
+| Overflowing Bins | 4 | 🟠 Moderate | City crew |
+| Graffiti | 3 | 🟢 Minor | Volunteer or crew |
+| Broken Signs | 3 | 🟢 Minor | Volunteer or crew |
+| Faded Road Markings | 3 | 🟢 Minor | Volunteer or crew |
+| Overgrown Vegetation | 2 | 🟢 Minor | Volunteer or crew |
+| Litter Accumulation | 1 | 🟢 Minor | Volunteer or crew |
+
+Anything that fits none of these is filed as **Other** and categorised by hand. All categories live in one file: [`website/src/lib/categories.ts`](website/src/lib/categories.ts).
+
+</details>
+
+<details>
+<summary><b>Status lifecycle</b></summary>
 
 ```mermaid
 stateDiagram-v2
     direction LR
-    [*] --> open: Resident submits report (+50 EXP)
-    open --> in_progress: Rule A: volunteer claims task (severity ≤ 3 only)
-    in_progress --> pending_verification: Rule B: assigned volunteer uploads proof photo
-    pending_verification --> resolved: Rule B: City Admin verifies proof (+250 EXP to volunteer)
-    resolved --> [*]
+    [*] --> Open: Resident reports (+50 EXP)
+    Open --> InProgress: Volunteer claims (severity ≤ 3)<br/>or admin dispatches a crew
+    InProgress --> PendingVerification: Volunteer uploads proof
+    PendingVerification --> Resolved: Admin approves (+250 EXP)
+    PendingVerification --> InProgress: Admin rejects
+    Open --> Resolved: Admin resolves
+    InProgress --> Resolved: Admin resolves
+    Resolved --> [*]: Deleted after 28 days
 ```
 
-`DatabaseService` holds the only approved transition methods: `volunteerForReport()`, `submitProofOfWork()` and `adminVerifyAndResolve()`. Each one **re-fetches the latest server copy** and checks every precondition before it writes anything:
+| Status | Progress bar |
+|---|:---:|
+| Open | 12% |
+| In Progress | 50% |
+| Pending Verification | 80% |
+| Resolved | 100% |
 
-| Transition | Who | Preconditions enforced server-side |
-|---|---|---|
-| `open → in_progress` | Any user | Severity ≤ 3 · task not already assigned |
-| `in_progress → pending_verification` | **Only the assigned volunteer** | Status is `in_progress` · proof image is non-empty |
-| `pending_verification → resolved` | **City Admin only** | Status is `pending_verification` · a proof image exists to inspect |
-
-Resolving a task stamps `fixedAt` in the report's resolution log and credits the volunteer automatically. Older status values (`pending`, `inProgress`, `fixed`) are still parsed, so reports written under the earlier schema load without a migration.
-
-### 7 · Civic EXP economy
-
-<table>
-  <tr>
-    <td width="260"><img src="docs/screenshots/16_civic_rewards.png" width="240"></td>
-    <td>
-
-Civic participation earns points:
-
-| Action | Reward |
-|---|---|
-| 📸 Submit a report | **+50 EXP** |
-| 🧹 Volunteer, prove and get verified | **+250 EXP** |
-| 🌱 Starting balance (resident) | 100 EXP |
-
-- EXP lives in a MongoDB `users` collection and is updated with an **atomic `$inc` upsert**. Simultaneous awards can't overwrite each other, and an account that doesn't exist yet is created with the reward instead of losing it.
-- After every award the app **re-reads the document**, so the balance it shows always matches the server.
-- The header shows a **progress bar toward the next tier** (200 → 1,000 → 5,000 → every 1,000 after that).
-
-</td>
-  </tr>
-</table>
-
-### 8 · Self-healing data layer
-
-Mobile networks drop connections, and Atlas closes idle sockets. Rather than assuming the connection is always up, `DatabaseService` was built to recover from failures:
-
-- **Connection lock.** All callers share one in-flight handshake (`_connectFuture`). This fixed a real cold-start race in which `main()` and an early-mounting screen both drove `open()` and one received `State.OPENING`.
-- **Retry once on transient errors.** Socket resets and `No master connection` errors trigger a clean reopen and **exactly one retry**. Auth and validation errors fail fast, because reconnecting can't fix them.
-- **Pre-flight checks before writes.** If the socket died while the user was on the camera screen, it is revived before `insertOne`, and the submission still goes through.
-- **A polling stream that tolerates outages.** It yields a cached list immediately, re-fetches every 3 s, and backs off for 5 s when the network is down rather than hammering a dead socket. The UI never goes blank.
-- **Tuned Atlas parameters**: `connectTimeoutMS=30000`, `socketTimeoutMS=60000`, `serverSelectionTimeoutMS=30000` and `maxIdleTimeMS=120000`. Each was set in response to a measured failure on Android-emulator network stacks.
+</details>
 
 ---
 
-## 🏗 System architecture
+## 🏗 Architecture
 
 ```mermaid
 flowchart LR
-    subgraph Device["📱 Flutter client"]
-        CAM[Camera / Gallery<br/>image_picker]
-        GPS[GPS + Reverse Geocoding<br/>geolocator · geocoding]
-        UI[Screens<br/>Map · Console · Detail · Rewards]
-        AI[AIService]
-        DB[DatabaseService<br/>lock · retry · polling]
-        RULES[issue_categories.dart<br/>taxonomy · canonical severity]
+    subgraph Clients["📱 Clients"]
+        WEB["Any browser<br/>laptop or phone"]
+        APK["Android app<br/>WebView container"]
     end
 
-    subgraph Cloud["☁️ Cloud services"]
-        GROQ[Groq Inference API<br/>Llama 4 Scout 17B-16E]
-        ATLAS[(MongoDB Atlas<br/>reports · users)]
-        TILES[CARTO basemap tiles]
+    subgraph Vercel["▲ Vercel: Next.js 16"]
+        UI["React 19 pages<br/>Tailwind v4 · EN / AR · light / dark"]
+        API["API routes<br/>auth · reports · analyze · geocode · leaderboard"]
     end
 
-    CAM --> AI
-    AI -- base64 image + system prompt --> GROQ
-    GROQ -- JSON category / severity / description --> AI
-    GPS --> UI
-    AI --> UI
-    RULES --> AI
-    RULES --> DB
-    UI --> DB
-    DB <--> ATLAS
-    UI --> TILES
+    subgraph AI["🤖 Vision AI with fallback"]
+        G1["Gemini Flash-Lite"]
+        G2["Groq: Qwen vision"]
+        G3["Gemini Flash"]
+    end
+
+    DB[("MongoDB Atlas<br/>reports · users")]
+    MAP["OpenFreeMap tiles"]
+    GEO["Geocoding<br/>Google or OpenStreetMap"]
+    MAIL["Gmail SMTP<br/>6-digit codes"]
+
+    WEB --> UI
+    APK --> UI
+    UI --> API
+    UI --> MAP
+    API --> G1
+    G1 -. slow or failed .-> G2
+    G2 -. slow or failed .-> G3
+    API <--> DB
+    API --> GEO
+    API --> MAIL
 ```
 
-### Lifecycle of a single report
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor R as Resident
-    participant App as Flutter app
-    participant LLM as Llama 4 Scout (Groq)
-    participant DB as MongoDB Atlas
-    actor A as City Admin
-
-    R->>App: Snap photo
-    App->>LLM: Image + inspector system prompt
-    LLM-->>App: {"category","severity","description"}
-    App->>App: GPS fix + reverse-geocode address
-    App->>App: normalizeSeverityFor(category)
-    App->>DB: insertOne(report) · $inc +50 EXP
-    DB-->>App: Visible on every map within 3 s
-    R->>App: Volunteer (severity ≤ 3)
-    App->>DB: Re-read → assign → in_progress
-    R->>App: Upload proof photo
-    App->>DB: Re-read → pending_verification
-    A->>App: Inspect before / after
-    App->>DB: Re-read → resolved · fixedAt · $inc +250 EXP
-```
-
----
-
-## 🗂 The issue taxonomy
-
-Fifteen canonical categories, ordered by risk. The AI must return **exactly one** of these strings or `Other`.
-
-| # | Category | Canonical severity | Band | Volunteer-eligible |
-|---|---|:---:|:---:|:---:|
-| 1 | Exposed Wiring | 10 | 🔴 Critical | — |
-| 2 | Broken Pipelines | 10 | 🔴 Critical | — |
-| 3 | Potholes | 8 | 🔴 Critical | — |
-| 4 | Traffic Signal Malfunction | 8 | 🔴 Critical | — |
-| 5 | Broken Guardrails | 7 | 🔴 Critical | — |
-| 6 | Broken Street Lights | 6 | 🟠 Moderate | — |
-| 7 | Water Accumulation | 5 | 🟠 Moderate | — |
-| 8 | Cracked Sidewalks | 5 | 🟠 Moderate | — |
-| 9 | Illegal Dumping | 5 | 🟠 Moderate | — |
-| 10 | Overflowing Bins | 4 | 🟠 Moderate | — |
-| 11 | Graffiti | 3 | 🟢 Minor | ✅ |
-| 12 | Broken Signs | 3 | 🟢 Minor | ✅ |
-| 13 | Faded Road Markings | 3 | 🟢 Minor | ✅ |
-| 14 | Overgrown Vegetation | 2 | 🟢 Minor | ✅ |
-| 15 | Litter Accumulation | 1 | 🟢 Minor | ✅ |
-
-To add or change a category, edit **one file**: `lib/core/issue_categories.dart`. The AI prompt, the manual dropdown, severity reconciliation and volunteer eligibility all update from it automatically.
-
----
-
-## 🧬 Data model
-
-**`reports` collection**
-
-```jsonc
-{
-  "_id": ObjectId,
-  "category": "Graffiti",                 // one of the 15 canonical categories or "Other"
-  "severity": 3,                          // 1–10, reconciled against the canonical map
-  "priority": "low",                      // low | medium | high (derived from severity)
-  "description": "The wall has been vandalized with graffiti…",
-  "latitude": 25.70969,
-  "longitude": 55.85569,
-  "address": "1 302C St - Al Riffa - Ras Al Khaimah - United Arab Emirates",
-  "imageBase64": "…",                     // original report photo
-  "status": "pending_verification",       // open | in_progress | pending_verification | resolved
-  "createdAt": "2026-06-04T12:07:00Z",
-  "fixedAt": null,                        // stamped when resolved
-  "assignedVolunteerId": "Resident1",
-  "proofOfWorkImageUrl": "data:image/…"   // volunteer's after photo
-}
-```
-
-**`users` collection**
-
-```jsonc
-{ "username": "Resident1", "currentExp": 150, "createdAt": "…" }
-```
+- **AI fallback chain.** Each step has a hard time limit, so the page never hangs. If no AI key is set, the site runs in **demo mode** with sample answers and a banner says so.
+- **Keys stay on the server.** API keys and the database password are never sent to the browser.
+- **Speed.** Report photos are served as small cached WebP thumbnails, avatars and logos are cached for a week, the database connects at start-up, and the dark map is pre-coloured so it draws once.
+- **Tidy data.** Resolved issues are deleted automatically 28 days after they were fixed, and the issue page shows the deletion date.
 
 ---
 
 ## 🧰 Tech stack
 
-| Layer | Technology | Role |
-|---|---|---|
-| Client | **Flutter** (Dart 3.11), Material 3 | Cross-platform UI; Android is the primary target |
-| Vision AI | **Llama 4 Scout 17B-16E Instruct** | Multimodal issue classification and severity scoring |
-| Inference | **Groq** (OpenAI-compatible REST via `http`) | Low-latency model serving |
-| Database | **MongoDB Atlas** via `mongo_dart` | Reports, users, EXP ledger |
-| Location | `geolocator` · `geocoding` | High-accuracy GPS and reverse-geocoded street addresses |
-| Maps | `flutter_map` · `latlong2` · CARTO tiles | Live severity-coded civic map |
-| Media | `image_picker` | Camera and gallery capture |
-| Formatting | `intl` | Timestamps and locale-aware formatting |
-| Dev tooling | `flutter analyze`, `flutter_lints` | Static analysis |
+| Layer | Technology |
+|---|---|
+| Frontend | **Next.js 16** (App Router), **React 19**, **TypeScript**, **Tailwind CSS v4**, DM Sans and IBM Plex Sans Arabic |
+| AI | **Google Gemini** (`@google/genai`) with a structured JSON schema; **Groq** as the backup |
+| Database | **MongoDB Atlas**, shared by the website and the Android app |
+| Maps | **MapLibre** + **OpenFreeMap** (Leaflet fallback, optional Google Maps) |
+| Auth | scrypt password hashes, signed session cookies, email codes via **Nodemailer** + Gmail |
+| Hosting | **Vercel**, which redeploys on every push to `main` |
+| Android | Java WebView app (minSdk 26, targetSdk 34), APK built by **GitHub Actions** |
 
 ---
 
-## 📁 Project structure
+## 💻 Run it yourself
 
-```
-fix_my_street/
-├── lib/
-│   ├── main.dart                     # Boot: MongoDB handshake before runApp()
-│   ├── config.dart                   # City scope / defaults
-│   ├── core/
-│   │   ├── config.dart               # 🔒 API keys + Atlas URI (git-ignored, see setup)
-│   │   └── issue_categories.dart     # Single source of truth: taxonomy + canonical severity
-│   ├── models/
-│   │   ├── ai_analysis_result.dart   # Parsed model output with safe fallback
-│   │   ├── app_user.dart             # Roles, EXP, tier progress
-│   │   └── report_model.dart         # Report schema, status lifecycle, priority
-│   ├── services/
-│   │   ├── ai_service.dart           # Groq / Llama 4 vision pipeline
-│   │   ├── auth_service.dart         # Role resolution + cache warm-up
-│   │   ├── database_service.dart     # Atlas access, verification rules, EXP, self-healing
-│   │   └── location_service.dart     # Permissions, GPS, reverse geocoding
-│   ├── screens/
-│   │   ├── login_screen.dart
-│   │   ├── home_screen.dart          # Live map + navigation hub
-│   │   ├── map_explore_screen.dart   # Full-screen community map + legend
-│   │   ├── map_details_screen.dart   # Marker detail sheet
-│   │   ├── camera_screen.dart        # Capture / gallery
-│   │   ├── ai_preview_screen.dart    # AI result, manual fallback, submit
-│   │   ├── issue_console_screen.dart # KPIs + report list
-│   │   ├── issue_detail_screen.dart  # Volunteer → proof → verify UI
-│   │   └── exp_info_screen.dart      # Civic Rewards
-│   ├── theme/app_theme.dart          # Dark olive design system
-│   └── widgets/                      # Buttons, severity chips, pulsing markers, cards
-├── assets/images/                    # Logo + reward artwork
-└── pubspec.yaml
-```
-
----
-
-## 🚀 Getting started
-
-> **Just want to try it?** Download the APK and install it on your Android device.
-
-### Prerequisites
-
-- Flutter SDK with **Dart ≥ 3.11**
-- An Android device or emulator (camera and location permissions required)
-- A free **[Groq API key](https://console.groq.com/keys)**
-- A **[MongoDB Atlas](https://www.mongodb.com/atlas)** cluster with a database user and your IP or device in the network allow-list
-
-### 1. Clone and install
+You need **Node.js 22** or newer.
 
 ```bash
-git clone https://github.com/SohamBhongade/Fix_My_Street.git
-cd Fix_My_Street
-flutter pub get
+git clone https://github.com/SohamBhongade/Tareeq.git
+cd Tareeq/website
+npm install
+cp .env.example .env.local      # Windows: copy .env.example .env.local
+npm run dev                     # → http://localhost:3000
 ```
 
-### 2. Add your secrets
+| Variable in `.env.local` | What it is |
+|---|---|
+| `GEMINI_API_KEY` | Free key from [Google AI Studio](https://aistudio.google.com/app/apikey) |
+| `GROQ_API_KEY` | Optional free backup key from [Groq](https://console.groq.com/keys) |
+| `MONGODB_URI` | Your MongoDB Atlas connection string |
+| `SESSION_SECRET` | Any long random text |
+| `GMAIL_USER` / `GMAIL_APP_PASSWORD` | Optional. Sends sign-up codes (needs a 16-letter Google App Password) |
 
-`lib/core/config.dart` is **git-ignored on purpose**. Create it locally:
-
-```dart
-// lib/core/config.dart — DO NOT COMMIT
-class AppConfig {
-  static const String groqApiKey = 'YOUR_GROQ_API_KEY';
-  static const String groqModel = 'meta-llama/llama-4-scout-17b-16e-instruct';
-
-  static const String mongoUri =
-      r'mongodb+srv://<user>:<password>@<cluster>.mongodb.net/FixMyStreet?'
-      r'retryWrites=true&w=majority&appName=FixMyStreet'
-      r'&connectTimeoutMS=30000&socketTimeoutMS=60000'
-      r'&serverSelectionTimeoutMS=30000&maxIdleTimeMS=120000';
-
-  static const String reportsCollection = 'reports';
-  static const String usersCollection = 'users';
-}
-```
-
-### 3. Run
-
-```bash
-flutter run
-```
-
-### Demo accounts
-
-| Role | Username | Password |
-|---|---|---|
-| Resident | `Resident1` | `123` |
-| City Admin | `CityAdmin` | `12345` |
-
-> These are hard-coded **prototype credentials** for demos only. See the [Roadmap](#-roadmap) for real authentication.
+With no AI key or database, the site still runs in **demo mode** with sample reports. Full setup, Google Maps keys and troubleshooting are in **[`website/README.md`](website/README.md)**. Building the Android app is covered in **[`website-android/README.md`](website-android/README.md)**.
 
 ---
 
-## 🗺 Roadmap
+## 📁 Repository layout
 
-Where FixMyStreet goes next:
+```
+Tareeq/
+├── website/                 ← Tareeq website (Next.js) · deployed to Vercel
+│   ├── src/app/             pages: login · signup · map · report · issues · leaderboard · profile · rewards
+│   ├── src/app/api/         server routes
+│   ├── src/lib/             AI, categories, reports rules, database, auth, i18n
+│   └── public/              brand, avatars, sample data
+├── website-android/         ← Android app (WebView container)
+├── .github/workflows/       ← build-apk.yml: builds the APK on every push
+├── docs/
+│   ├── tareeq/              README images
+│   └── FIXMYSTREET_FLUTTER_APP.md   docs for the original Flutter app
+└── lib/, android/, ios/ …   ← original FixMyStreet AI Flutter app (archived)
+```
 
-- [ ] **Spatial and visual duplicate detection**: a geo-radius query plus image-similarity check that merges repeat reports into one ticket with community confirmations
-- [ ] **AI-assisted proof verification**: the vision model compares before and after photos and gives the admin a confidence score
-- [ ] **Municipal web dashboard**: severity heatmaps, district KPIs, crew dispatch and auto-generated work orders
-- [ ] **Arabic / RTL interface** for full UAE accessibility
-- [ ] **Production authentication** (e.g. Firebase Auth or UAE Pass) replacing the demo accounts
-- [ ] **Server-side API layer** (e.g. Cloud Run) so keys and database credentials never ship inside the client
-- [ ] **Object storage for images** instead of base64 embedded in report documents
-- [ ] **Context-aware follow-up questions** when a photo is ambiguous ("Is the water actively overflowing?")
-- [ ] **Push notifications** for nearby volunteer tasks and status changes
+---
+
+## 🛣 From FixMyStreet AI to Tareeq
+
+| When | What happened |
+|---|---|
+| **May 2026** | **FixMyStreet AI**, a Flutter mobile app with Llama 4 Scout vision AI and MongoDB, built for the **ADU hackathon** |
+| **Oct 2026** | Rebuilt as a **website**, renamed **Tareeq**, and moved to **Google Gemini**. Added Arabic, duplicate detection, a new UI, dark mode and the phone layout |
+| **Oct 2026** | Went live on **Vercel**. The **Android app** became a container for the website |
+| **Nov 2026** | Added fake-photo protection, more avatars and smoother location handling. Entered in the **RAK Department of Knowledge × Google** hackathon |
+
+The original Flutter app is still in this repository. Its full documentation, with screenshots, is in **[docs/FIXMYSTREET_FLUTTER_APP.md](docs/FIXMYSTREET_FLUTTER_APP.md)**.
 
 ---
 
 ## 👥 Team
 
-- **Soham Bhongade**
-- **Abhinav Arul**
-- **Aneeq Mohammed**
-- **Nithik Dev**
+<table>
+  <tr>
+    <td align="center"><b>Soham Bhongade</b></td>
+    <td align="center"><b>Abhinav Arul</b></td>
+    <td align="center"><b>Aneeq Mohammed</b></td>
+    <td align="center"><b>Nithik Dev</b></td>
+  </tr>
+</table>
 
-Originally built for the **ADU hackathon**, and now competing in the **RAK Department of Knowledge × Google** hackathon.
+<p align="center"><sub>Indian Public High School Private · Ras Al Khaimah, UAE</sub></p>
+
+<details>
+<summary><b>Credits</b></summary>
+
+- Avatars: [DiceBear](https://dicebear.com) styles Lorelei, Notionists, Thumbs, Pixel Art and Open Peeps (CC0), and Bottts (free for personal and commercial use)
+- Map © [OpenFreeMap](https://openfreemap.org) · [OpenMapTiles](https://www.openmaptiles.org/) · data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors
+- Fonts: [DM Sans](https://fonts.google.com/specimen/DM+Sans) and [IBM Plex Sans Arabic](https://fonts.google.com/specimen/IBM+Plex+Sans+Arabic) (SIL Open Font License)
+
+</details>
 
 <p align="center">
-  <img src="docs/images/logo.png" width="72"><br>
-  <sub><b>FixMyStreet AI</b> · Civic intelligence for Ras Al Khaimah</sub>
+  <br>
+  <a href="https://tareeq-rak.vercel.app"><img src="website/public/brand/tareeq-logo.svg" width="64" alt="Tareeq logo"></a><br>
+  <b>Tareeq · طريق</b><br>
+  <sub>Spot it. Snap it. Fixed.</sub>
 </p>
