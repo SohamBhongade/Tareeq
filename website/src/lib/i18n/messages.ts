@@ -149,7 +149,12 @@ export const M = {
   "report.changeCat": ["Not right? Change category", "التصنيف غير صحيح؟ غيّره"],
   "report.other": ["Other / not listed", "أخرى / غير مدرجة"],
   "report.demoAi": ["Demo mode: AI analysis is off because no AI key is set. Pick the category yourself.", "الوضع التجريبي: تحليل الذكاء الاصطناعي متوقف لعدم وجود مفتاح. اختر النوع بنفسك."],
-  "report.override": ["The AI suggested {ai}/10. City rules fix {cat} at {final}/10 so dangerous jobs never reach volunteers.", "اقترح الذكاء الاصطناعي {ai}/10. قواعد البلدية تحدد «{cat}» عند {final}/10 حتى لا تصل المهام الخطرة إلى المتطوعين."],
+  "report.fakeTitle": ["AI-generated image detected", "تم اكتشاف صورة مولّدة بالذكاء الاصطناعي"],
+  "report.fakeTool": ["This file says it was made with {tool}. Only real photos of real issues can be reported.", "يشير هذا الملف إلى أنه صُنع باستخدام {tool}. يمكن الإبلاغ بالصور الحقيقية للمشكلات الحقيقية فقط."],
+  "report.fakeVisual": ["The AI is {n}% sure this picture is AI-generated, not a real photo. Only real photos of real issues can be reported.", "الذكاء الاصطناعي متأكد بنسبة {n}% أن هذه الصورة مولّدة وليست صورة حقيقية. يمكن الإبلاغ بالصور الحقيقية للمشكلات الحقيقية فقط."],
+  "report.fakeRetake": ["Take a real photo", "التقط صورة حقيقية"],
+  "report.needReal": ["AI-generated images can't be submitted.", "لا يمكن إرسال الصور المولّدة بالذكاء الاصطناعي."],
+  "issue.fakeProof": ["AI-generated image detected ({tool}). Upload a real photo of the finished work.", "تم اكتشاف صورة مولّدة بالذكاء الاصطناعي ({tool}). ارفع صورة حقيقية للعمل المنجز."],
   "report.lowRisk": ["Low risk: residents will be able to volunteer to fix this.", "خطورة منخفضة: يمكن للمقيمين التطوع لإصلاحها."],
   "report.highRisk": ["High risk: this will go to the municipal team, not volunteers.", "خطورة عالية: ستُحال إلى فريق البلدية وليس المتطوعين."],
   "report.useMyLocation": ["Use my location", "استخدم موقعي"],
@@ -471,6 +476,7 @@ export const ERROR_AR: Record<string, string> = {
   "Something went wrong on the server. Please try again.": "حدث خطأ في الخادم. حاول مجدداً.",
   "Something went wrong. Please try again.": "حدث خطأ. حاول مجدداً.",
   "This file could not be read as an image.": "تعذّرت قراءة الملف كصورة.",
+  "This photo didn't pass the AI-image check. Take a real photo of the issue.": "لم تجتز هذه الصورة فحص الصور المولّدة بالذكاء الاصطناعي. التقط صورة حقيقية للمشكلة.",
 };
 
 export const ERROR_PATTERNS_AR: [RegExp, (m: RegExpMatchArray) => string][] = [

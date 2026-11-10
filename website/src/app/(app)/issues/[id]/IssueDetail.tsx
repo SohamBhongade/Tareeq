@@ -9,6 +9,7 @@ import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { useToast } from "@/components/Toast";
 import { api, fileToResizedDataUrl } from "@/components/imageUtil";
 import { useI18n } from "@/lib/i18n/client";
+import { findAiMarker } from "@/lib/aiImageCheck";
 import { isVolunteerEligible, priorityFromSeverity } from "@/lib/categories";
 import { resolvedDeleteDate, RESOLVED_KEEP_DAYS, type Report, type SessionUser } from "@/lib/types";
 
@@ -56,6 +57,13 @@ export function IssueDetail({ initial, user }: { initial: Report; user: SessionU
 
   async function uploadProof(file: File | undefined) {
     if (!file) return;
+    // Anti-AI check: proof photos that say they were made by an AI tool are refused.
+    const tool = await findAiMarker(file);
+    if (tool) {
+      toast(t("issue.fakeProof", { tool }), "error");
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
     let dataUrl: string;
     try { dataUrl = await fileToResizedDataUrl(file); }
     catch (e) { toast((e as Error).message, "error"); return; }

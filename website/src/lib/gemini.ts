@@ -26,6 +26,13 @@ const GEMINI_MODEL = () => env("GEMINI_MODEL") || "gemini-3.5-flash-lite";
 const GEMINI_FALLBACK_MODEL = () => env("GEMINI_FALLBACK_MODEL") || "gemini-3.6-flash";
 const GROQ_MODEL = () => env("GROQ_MODEL") || "qwen/qwen3.8-27b";
 const STEP_TIMEOUT_MS = () => Number(env("AI_TIMEOUT_MS")) || 12000;
+/**
+ * Anti-AI check: a photo is declined when the vision model is at least this
+ * sure it is AI-generated. AI_IMAGE_CHECK=off turns the visual check off
+ * (emergency switch if it ever blocks real photos during a demo).
+ */
+const AI_REJECT_CONFIDENCE = () =>
+  env("AI_IMAGE_CHECK").toLowerCase() === "off" ? 101 : Number(env("AI_REJECT_CONFIDENCE")) || 75;
 
 export function aiConfigured(): boolean {
   return !!(env("GEMINI_API_KEY") || env("GROQ_API_KEY"));
@@ -35,11 +42,19 @@ const SYSTEM_PROMPT = [
   "You are a senior municipal-maintenance inspector for Ras Al Khaimah, UAE.",
   "You are shown one photograph of a street or public-infrastructure issue taken by a resident.",
   "",
-  "Return ONLY a JSON object with exactly four keys:",
+  "Return ONLY a JSON object with exactly six keys:",
   `  "category"    — MUST be one of EXACTLY these values (case-sensitive): ${[...ISSUE_CATEGORIES, OTHER_CATEGORY].join(" | ")}`,
   '  "severity"    — integer 1–10 (1 = cosmetic, 10 = immediate danger to life)',
   '  "description" — 1–2 factual sentences in English, max 280 characters, describing what is visible',
   '  "description_ar" — the same description in clear Modern Standard Arabic',
+  '  "ai_generated" — true ONLY if this is clearly NOT a real camera photo: an AI-generated image (Gemini, ChatGPT/DALL·E, Midjourney, Stable Diffusion…), a 3D render, a drawing/illustration/cartoon, or a heavily AI-manipulated picture',
+  '  "ai_confidence" — integer 0–100, how sure you are about ai_generated being true',
+  "",
+  "HOW TO JUDGE ai_generated:",
+  "  • Signs of AI: warped or nonsensical text and signs, melted or merging objects, impossible geometry or shadows, too-perfect waxy textures,",
+  "    painterly or plastic look, extra/missing parts on cars, people or poles, inconsistent lighting, dreamy over-saturated 'stock' look.",
+  "  • Real phone photos are often blurry, grainy, badly framed, dark, tilted or compressed — that is NORMAL and NOT a sign of AI.",
+  "  • When unsure, answer false with a low ai_confidence. Never reject a genuine photo just because it is low quality.",
   "",
   "STRICT RULES:",
   "  • Pick the single best match from the list. Do not invent, abbreviate, pluralize, or rephrase categories.",
@@ -60,9 +75,11 @@ const RESPONSE_SCHEMA = {
     severity: { type: Type.INTEGER },
     description: { type: Type.STRING },
     description_ar: { type: Type.STRING },
+    ai_generated: { type: Type.BOOLEAN },
+    ai_confidence: { type: Type.INTEGER },
   },
-  required: ["category", "severity", "description", "description_ar"],
-  propertyOrdering: ["category", "severity", "description", "description_ar"],
+  required: ["category", "severity", "description", "description_ar", "ai_generated", "ai_confidence"],
+  propertyOrdering: ["category", "severity", "description", "description_ar", "ai_generated", "ai_confidence"],
 };
 
 // ── providers ──────────────────────────────────────────────────────────
@@ -178,7 +195,7 @@ export async function analyzeImage(base64: string, mimeType: string): Promise<An
     try {
       const text = await step.run(base64, mimeType);
       const result = parseResult(text);
-      console.log(`[ai] ${step.label} answered in ${Date.now() - started} ms → ${result.category} ${result.severity}/10`);
+      console.log(`[ai] ${step.label} answered in ${Date.now() - started} ms → ${result.category} ${result.severity}/10${result.aiGenerated ? ` · AI-GENERATED (${result.aiConfidence}%)` : ""}`);
       return { ...result, provider: step.label };
     } catch (e: unknown) {
       lastError = e;
@@ -228,7 +245,9 @@ function parseResult(raw: string | undefined): AnalysisResult {
       typeof j.description === "string" && j.description.trim() ? j.description.trim().slice(0, 400) : fallback.description;
     const descriptionAr =
       typeof j.description_ar === "string" && /[\u0600-\u06FF]/.test(j.description_ar) ? j.description_ar.trim().slice(0, 400) : null;
-    return { category, severity: sev, description, descriptionAr };
+    const aiConfidence = Math.min(100, Math.max(0, Math.round(Number(j.ai_confidence) || 0)));
+    const flagged = (j.ai_generated === true || j.ai_generated === "true") && aiConfidence >= AI_REJECT_CONFIDENCE();
+    return { category, severity: sev, description, descriptionAr, aiGenerated: flagged, aiConfidence };
   } catch {
     return fallback;
   }

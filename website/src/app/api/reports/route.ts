@@ -1,5 +1,6 @@
 import { withUser, json, fail, cleanImage } from "@/lib/http";
 import { createReport, listReports } from "@/lib/reports";
+import { checkPhotoPass } from "@/lib/photoPass";
 
 export const GET = withUser(async () => json({ reports: await listReports() }));
 
@@ -7,6 +8,10 @@ export const POST = withUser(async (user, req: Request) => {
   const body = await req.json().catch(() => ({}));
   const img = cleanImage(body.imageBase64);
   if (!img) return fail("Please attach a photo under 6 MB.");
+  // Anti-AI check: only photos that passed /api/analyze can be filed.
+  if (!checkPhotoPass(body.photoPass, user.username, img.base64)) {
+    return fail("This photo didn't pass the AI-image check. Take a real photo of the issue.", 422);
+  }
   const { report, exp } = await createReport(user, {
     category: String(body.category ?? ""),
     severity: Number(body.severity),

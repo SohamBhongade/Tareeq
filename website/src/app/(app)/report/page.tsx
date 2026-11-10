@@ -17,6 +17,7 @@ import type { AnalysisResult, DuplicateMatch, Report } from "@/lib/types";
 import { DuplicatePanel } from "./DuplicatePanel";
 import { useI18n } from "@/lib/i18n/client";
 import { geoFailKey, geoPermission, getPosition, type GeoFail } from "@/lib/geoClient";
+import { findAiMarker } from "@/lib/aiImageCheck";
 
 type Loc = { lat: number; lng: number; accuracy?: number; source: "gps" | "map" };
 
@@ -32,6 +33,9 @@ export default function ReportPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [category, setCategory] = useState<string>("");
+  // Anti-AI check: a signed pass from the server, or the reason the photo was declined.
+  const [photoPass, setPhotoPass] = useState<string | null>(null);
+  const [fake, setFake] = useState<{ tool?: string; confidence?: number } | null>(null);
 
   const [loc, setLoc] = useState<Loc | null>(null);
   const [locState, setLocState] = useState<"idle" | "locating" | "failed" | "ok">("idle");
@@ -81,9 +85,15 @@ export default function ReportPage() {
     setAnalyzing(true);
     setAiError(null);
     setAnalysis(null);
+    setPhotoPass(null);
     try {
-      const { analysis } = await api<{ analysis: AnalysisResult }>("/api/analyze", { json: { imageBase64: dataUrl } });
+      const { analysis, photoPass } = await api<{ analysis: AnalysisResult; photoPass: string | null }>("/api/analyze", { json: { imageBase64: dataUrl } });
+      if (analysis.aiGenerated) {
+        setFake({ confidence: analysis.aiConfidence });
+        return;
+      }
       setAnalysis(analysis);
+      setPhotoPass(photoPass);
       setCategory(analysis.category);
     } catch (e) {
       setAiError((e as Error).message);
@@ -94,9 +104,20 @@ export default function ReportPage() {
 
   async function onFile(file: File | undefined) {
     if (!file) return;
+    setFake(null);
     try {
+      // Layer 1: AI tools label their files — read the label before the
+      // photo is shrunk (shrinking wipes it). Declined straight away.
+      const tool = await findAiMarker(file);
       const dataUrl = await fileToResizedDataUrl(file);
       setPhoto(dataUrl);
+      if (tool) {
+        setAnalysis(null);
+        setPhotoPass(null);
+        setCategory("");
+        setFake({ tool });
+        return;
+      }
       analyze(dataUrl);
     } catch (e) {
       toast((e as Error).message, "error");
@@ -106,8 +127,7 @@ export default function ReportPage() {
   // ── submit ──────────────────────────────────────────────────────────
   const aiSeverity = analysis?.severity ?? 1;
   const finalSeverity = category ? normalizeSeverity(category, aiSeverity) : aiSeverity;
-  const overridden = !!analysis && category !== "" && finalSeverity !== aiSeverity;
-  const canSubmit = !!photo && !!analysis && !!category && !!loc && !submitting;
+  const canSubmit = !!photo && !!analysis && !!photoPass && !fake && !!category && !!loc && !submitting;
 
   // Duplicate detection: look for open reports of the same kind nearby
   // whenever the category or location settles.
@@ -136,6 +156,7 @@ export default function ReportPage() {
           latitude: loc.lat,
           longitude: loc.lng,
           address: address || "Ras Al Khaimah, UAE",
+          photoPass,
           // The user has seen the "already reported" panel and chose to file anyway.
           forceNew: matches.length > 0,
         },
@@ -158,6 +179,7 @@ export default function ReportPage() {
 
   function reset() {
     setPhoto(null); setAnalysis(null); setAiError(null); setCategory("");
+    setPhotoPass(null); setFake(null); setMatches([]);
     if (fileRef.current) fileRef.current.value = "";
   }
 
@@ -205,6 +227,24 @@ export default function ReportPage() {
                 </div>
               )}
 
+              {fake && !analyzing && (
+                <div className="mt-3 space-y-3" role="alert">
+                  <div className="flex items-start gap-3 rounded-xl border border-critical/30 bg-critical/10 px-3.5 py-3 text-critical">
+                    <Icon name="shield" size={20} className="mt-0.5 shrink-0" />
+                    <div>
+                      <div className="font-semibold">{t("report.fakeTitle")}</div>
+                      <p className="mt-1 text-sm opacity-90">
+                        {fake.tool ? t("report.fakeTool", { tool: fake.tool }) : t("report.fakeVisual", { n: fake.confidence ?? 0 })}
+                      </p>
+                    </div>
+                  </div>
+                  <button type="button" onClick={() => { reset(); fileRef.current?.click(); }}
+                    className="flex items-center gap-2 rounded-xl bg-fill px-4 py-2.5 text-sm font-semibold text-on-fill hover:bg-fill-hover">
+                    <Icon name="camera" size={16} /> {t("report.fakeRetake")}
+                  </button>
+                </div>
+              )}
+
               {aiError && !analyzing && (
                 <div className="mt-3 space-y-3">
                   <p className="rounded-lg border border-critical/30 bg-critical/10 px-3 py-2 text-sm text-critical">{aiError}</p>
@@ -241,11 +281,6 @@ export default function ReportPage() {
                   {analysis.demo && (
                     <p className="rounded-lg border border-moderate/30 bg-moderate/10 px-3 py-2 text-xs text-moderate">
                       {t("report.demoAi")}
-                    </p>
-                  )}
-                  {overridden && !analysis.demo && (
-                    <p className="text-xs text-ink-3">
-                      {t("report.override", { ai: aiSeverity, cat: cat(category), final: finalSeverity })}
                     </p>
                   )}
                   <p className={`flex items-start gap-2 rounded-lg px-3 py-2 text-xs ${isVolunteerEligible(finalSeverity) ? "bg-minor/10 text-minor" : "bg-critical/10 text-critical"}`}>
@@ -315,7 +350,7 @@ export default function ReportPage() {
           </button>
           {!canSubmit && !submitting && (
             <p className="text-center text-xs text-ink-3">
-              {!photo ? t("report.needPhoto") : analyzing ? t("report.waitAi") : !loc ? t("report.needLoc") : !category ? t("report.needCat") : ""}
+              {!photo ? t("report.needPhoto") : fake ? t("report.needReal") : analyzing ? t("report.waitAi") : !loc ? t("report.needLoc") : !category ? t("report.needCat") : ""}
             </p>
           )}
         </section>

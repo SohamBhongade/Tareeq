@@ -94,6 +94,10 @@ export interface AnalysisResult {
   demo?: boolean;
   /** Which AI answered, e.g. "Gemini · gemini-3.5-flash-lite". */
   provider?: string;
+  /** Anti-AI check: the vision model is confident this photo is AI-generated. */
+  aiGenerated?: boolean;
+  /** 0–100: how sure the model is that the photo is AI-generated. */
+  aiConfidence?: number;
 }
 
 export const EXP_REPORT_SUBMITTED = 50;
