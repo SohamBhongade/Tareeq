@@ -21,7 +21,15 @@
   <img src="https://img.shields.io/badge/Android-WebView%20app-292928?logo=android&logoColor=3DDC84" alt="Android">
 </p>
 
+<p align="center">
+  <a href="#-hackathons"><img src="https://img.shields.io/badge/%F0%9F%8F%86%20RAK%20Department%20of%20Knowledge%20%C3%97%20Google-Hackathon%202026-c3f832?style=for-the-badge&labelColor=292928" alt="RAK Department of Knowledge x Google Hackathon 2026"></a>
+  &nbsp;
+  <a href="#-hackathons"><img src="https://img.shields.io/badge/%F0%9F%9A%80%20Started%20at-ADU%20Hackathon-c3f832?style=for-the-badge&labelColor=292928" alt="Started at the ADU Hackathon"></a>
+</p>
+
 <h3 align="center">A pothole, a broken light, a pile of rubbish.<br>Take one photo. Tareeq does the rest.</h3>
+
+> 🏆 **Built for the Ras Al Khaimah Department of Knowledge × Google Hackathon 2026.** Tareeq began life as *FixMyStreet AI* at the **ADU hackathon**, then was rebuilt from the ground up on **Google Gemini** for the RAK DoK × Google hackathon, where the team pitched it live on 11 November 2026. [Read the story ↓](#-hackathons)
 
 <p align="center">
   <img src="docs/tareeq/showcase.webp" width="100%" alt="Tareeq on a laptop and two phones, in light and dark mode">
@@ -91,6 +99,7 @@ It runs as a **website** that works on any laptop or phone, and as an **Android 
 ## Contents
 
 - [Launch video](#-launch-video)
+- [Hackathons](#-hackathons)
 - [Try it now](#-try-it-now)
 - [How it works](#-how-it-works)
 - [Feature tour](#-feature-tour)
@@ -101,6 +110,30 @@ It runs as a **website** that works on any laptop or phone, and as an **Android 
 - [Repository layout](#-repository-layout)
 - [From FixMyStreet AI to Tareeq](#-from-fixmystreet-ai-to-tareeq)
 - [Team](#-team)
+
+---
+
+## 🏆 Hackathons
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>🚀 ADU Hackathon: where it started</h4>
+      <b>Project:</b> FixMyStreet AI<br>
+      <b>When:</b> January to May 2026<br><br>
+      The team's first version: a <b>Flutter</b> mobile app with vision AI and MongoDB. Residents snapped a photo of a street problem, the AI classified it and scored its severity, and it was logged with GPS for the city. Deliverables were a pitch video, a slide deck and an AI development log.
+    </td>
+    <td width="50%" valign="top">
+      <h4>🏆 RAK Department of Knowledge × Google Hackathon 2026</h4>
+      <b>Project:</b> Tareeq (طريق)<br>
+      <b>Organisers:</b> Ras Al Khaimah Department of Knowledge and Google<br>
+      <b>Pitched:</b> 11 November 2026<br><br>
+      For this hackathon the app was rebuilt as a <b>website plus Android app</b>, renamed <b>Tareeq</b> and moved to <b>Google Gemini</b>. New for this round: full Arabic and right-to-left support, duplicate detection, a volunteer → proof → verify flow, EXP and badges, dark mode and a phone layout. The pitch was a Google Slides deck followed by the launch video and the live site.
+    </td>
+  </tr>
+</table>
+
+**Our objective:** encourage people to take the initiative and volunteer to make their city better.
 
 ---
 
@@ -428,9 +461,10 @@ Tareeq/
 | When | What happened |
 |---|---|
 | **May 2026** | **FixMyStreet AI**, a Flutter mobile app with Llama 4 Scout vision AI and MongoDB, built for the **ADU hackathon** |
-| **Oct 2026** | Rebuilt as a **website**, renamed **Tareeq**, and moved to **Google Gemini**. Added Arabic, duplicate detection, a new UI, dark mode and the phone layout |
+| **Oct 2026** | Entered in the **RAK Department of Knowledge × Google Hackathon 2026**. Rebuilt as a **website**, renamed **Tareeq**, and moved to **Google Gemini**. Added Arabic, duplicate detection, a new UI, dark mode and the phone layout |
 | **Oct 2026** | Went live on **Vercel**. The **Android app** became a container for the website |
-| **Nov 2026** | Added fake-photo protection, more avatars and smoother location handling. Entered in the **RAK Department of Knowledge × Google** hackathon |
+| **Nov 2026** | Added fake-photo protection, more avatars and smoother location handling |
+| **11 Nov 2026** | 🏆 Pitched live at the **RAK Department of Knowledge × Google Hackathon**: Google Slides deck, launch video and live demo |
 
 The original Flutter app is still in this repository. Its full documentation, with screenshots, is in **[docs/FIXMYSTREET_FLUTTER_APP.md](docs/FIXMYSTREET_FLUTTER_APP.md)**.
 
@@ -447,7 +481,7 @@ The original Flutter app is still in this repository. Its full documentation, wi
   </tr>
 </table>
 
-<p align="center"><sub>Indian Public High School Private · Ras Al Khaimah, UAE</sub></p>
+<p align="center"><sub>Indian Public High School Private · Ras Al Khaimah, UAE<br>RAK Department of Knowledge × Google Hackathon 2026 · ADU Hackathon</sub></p>
 
 <details>
 <summary><b>Credits</b></summary>
